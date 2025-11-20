@@ -49,15 +49,21 @@ ENV \
 
 ARG UV_SYNC_EXTRA_ARGS
 
+#RUN --mount=from=uv_stage,source=/uv,target=/bin/uv \
+    #--mount=type=cache,target=/opt/app-root/src/.cache/uv,uid=1001 \
+    #--mount=type=bind,source=uv.lock,target=uv.lock \
+    #--mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    3umask 002 && \
+    #UV_SYNC_ARGS="--frozen --no-install-project --no-dev --all-extras" && \
+    #uv sync ${UV_SYNC_ARGS} ${UV_SYNC_EXTRA_ARGS} --no-extra flash-attn && \
+    #FLASH_ATTENTION_SKIP_CUDA_BUILD=TRUE uv sync ${UV_SYNC_ARGS} ${UV_SYNC_EXTRA_ARGS} --no-build-isolation-package=flash-attn
+
 RUN --mount=from=uv_stage,source=/uv,target=/bin/uv \
     --mount=type=cache,target=/opt/app-root/src/.cache/uv,uid=1001 \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     umask 002 && \
-    #UV_SYNC_ARGS="--frozen --no-install-project --no-dev --all-extras" && \
-    #uv sync ${UV_SYNC_ARGS} ${UV_SYNC_EXTRA_ARGS} --no-extra flash-attn && \
-    #FLASH_ATTENTION_SKIP_CUDA_BUILD=TRUE uv sync ${UV_SYNC_ARGS} ${UV_SYNC_EXTRA_ARGS} --no-build-isolation-package=flash-attn
-    UV_SYNC_ARGS="--frozen --no-install-project --no-dev && \
+    UV_SYNC_ARGS="--frozen --no-install-project --no-dev" && \
     uv sync ${UV_SYNC_ARGS} ${UV_SYNC_EXTRA_ARGS}
 
 ARG MODELS_LIST="layout tableformer picture_classifier rapidocr easyocr"
