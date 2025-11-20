@@ -77,11 +77,18 @@ RUN echo "Downloading models..." && \
 
 COPY --chown=1001:0 ./docling_serve ./docling_serve
 
+#RUN --mount=from=uv_stage,source=/uv,target=/bin/uv \
+    #--mount=type=cache,target=/opt/app-root/src/.cache/uv,uid=1001 \
+    #--mount=type=bind,source=uv.lock,target=uv.lock \
+    #--mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    #umask 002 && uv sync --frozen --no-dev --all-extras ${UV_SYNC_EXTRA_ARGS}
+
 RUN --mount=from=uv_stage,source=/uv,target=/bin/uv \
     --mount=type=cache,target=/opt/app-root/src/.cache/uv,uid=1001 \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    umask 002 && uv sync --frozen --no-dev --all-extras ${UV_SYNC_EXTRA_ARGS}
+    umask 002 && uv sync --frozen --no-dev ${UV_SYNC_EXTRA_ARGS}
+
 
 EXPOSE 5001
 
