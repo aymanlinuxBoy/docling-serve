@@ -34,6 +34,7 @@ jobs:
         run: |
           ls -lat 
           #docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+          docker build -f Containerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
 
       - name: Push Docker image (latest)
         run: |
