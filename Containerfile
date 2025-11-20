@@ -57,7 +57,7 @@ RUN --mount=from=uv_stage,source=/uv,target=/bin/uv \
     #UV_SYNC_ARGS="--frozen --no-install-project --no-dev --all-extras" && \
     #uv sync ${UV_SYNC_ARGS} ${UV_SYNC_EXTRA_ARGS} --no-extra flash-attn && \
     #FLASH_ATTENTION_SKIP_CUDA_BUILD=TRUE uv sync ${UV_SYNC_ARGS} ${UV_SYNC_EXTRA_ARGS} --no-build-isolation-package=flash-attn
-    UV_SYNC_ARGS="--frozen --no-install-project --no-dev --all-extras" && \
+    UV_SYNC_ARGS="--frozen --no-install-project --no-dev && \
     uv sync ${UV_SYNC_ARGS} ${UV_SYNC_EXTRA_ARGS}
 
 ARG MODELS_LIST="layout tableformer picture_classifier rapidocr easyocr"
